@@ -1,0 +1,76 @@
+use employeeMgmSyst;
+
+CREATE TABLE employees (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     name VARCHAR(100) NOT NULL,
+     contact int,
+     job_title VARCHAR(100),
+     department VARCHAR(100),
+     salary INT
+);
+
+DELIMITER //
+CREATE PROCEDURE create_employee(
+    IN emp_name VARCHAR(100),
+    IN emp_contact VARCHAR(100),
+    IN emp_job_title VARCHAR(100),
+    IN emp_department VARCHAR(100),
+    IN emp_salary DECIMAL(10, 2)
+)
+BEGIN
+    INSERT INTO employees (name, contact, job_title, department, salary)
+    VALUES (emp_name, emp_contact, emp_job_title, emp_department, emp_salary);
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE update_employee(
+    IN emp_id INT,
+    IN emp_name VARCHAR(100),
+    IN emp_contact VARCHAR(100),
+    IN emp_job_title VARCHAR(100),
+    IN emp_department VARCHAR(100),
+    IN emp_salary DECIMAL(10, 2)
+)
+BEGIN
+    UPDATE employees
+    SET name = emp_name, contact = emp_contact, job_title = emp_job_title,
+        department = emp_department, salary = emp_salary
+    WHERE id = emp_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE delete_employee(
+    IN emp_id INT
+)
+BEGIN
+    DELETE FROM employees
+    WHERE id = emp_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE get_all_employees()
+BEGIN
+    SELECT * FROM employees;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE search_employees(IN search_input VARCHAR(100))
+BEGIN
+    SELECT id, name, contact, job_title, department, salary
+    FROM employees
+    WHERE id = search_input OR name LIKE CONCAT('%', search_input, '%');
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE get_employee_by_id(
+    IN emp_id INT
+)
+BEGIN
+    SELECT * FROM employees WHERE id = emp_id;
+END //
+DELIMITER ;+
